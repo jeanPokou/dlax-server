@@ -9,6 +9,26 @@ var Q = require('q');
 var apiExe = spawn('./dataLayer/dataRequestModule.exe',
 []);
 
+function restartApi() {
+  apiExe = spawn('./dataLayer/dataRequestModule.exe',
+  []);
+}
+
+apiExe.on('exit',function() {
+  restartApi();
+});
+
+apiExe.on('exit',function() {
+  process.exit();
+});
+
+process.on('SIGTERM',function() {
+  if (apiExe != util.undefined) {
+    process.exit();
+  }
+  restartApi();
+});
+
 function  DriversApi() {
   events.call(this);
   var self = this;

@@ -7,6 +7,12 @@
 var app = require('../app');
 var debug = require('debug')('express-dlax:server');
 var http = require('http');
+var io = require('socket.io')(app);
+
+io.on('connection',function(socket) {
+  socket.emit('news',{hello: 'world'});
+    
+});
 
 /**
  * Get port from environment and store in Express.
